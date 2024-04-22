@@ -1,5 +1,6 @@
 import hashlib
 import requests
+import uuid
 from io import BytesIO
 from PIL import Image
 from flask import Flask, request, jsonify, send_file
@@ -57,7 +58,8 @@ def go_jm():
     if len(url) <= 0:
         return jsonify({"code": "异常", "message": "url参数不能为空"})
     img_io = on_image_loaded(url)
-    return send_file(img_io, mimetype='image/jpeg', as_attachment=True)
+
+    return send_file(img_io, mimetype='image/jpeg', attachment_filename=f'{uuid.uuid4()}.jpg', as_attachment=True)
 @app.route('/', methods=["GET"])
 def return_OneText():
     return "fina_res"
