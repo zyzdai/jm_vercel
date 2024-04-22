@@ -5,8 +5,7 @@ import requests
 from PIL import Image
 from flask import Flask, request, jsonify, make_response, send_from_directory
 
-TMP_DIR = 'tmp/jm'
-os.makedirs(TMP_DIR, exist_ok=True)
+
 app = Flask(__name__)
 def get_num(aid, index):
     normalCutNum = 10  # 默认切割数
@@ -22,6 +21,8 @@ def get_num(aid, index):
     return normalCutNum
 
 def on_image_loaded(url):
+    TMP_DIR = 'tmp/jm'
+    os.makedirs(TMP_DIR, exist_ok=True)
     # aid = 421536  # 漫画id
     outfile_name = os.path.join(TMP_DIR, hashlib.md5(url.encode()).hexdigest() + '.jpg')
     if  os.path.exists(outfile_name):
