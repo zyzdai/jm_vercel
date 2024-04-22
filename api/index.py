@@ -63,7 +63,19 @@ def on_image_loaded(url):
     # 删除img_path文件
     os.remove(img_path)
     return outfile_name
-
+@app.route('/jm', methods=['GET', 'POST'])
+def go_jm():
+    url = request.args.get('url')
+    if len(url) <= 0:
+        return jsonify({"code": "异常", "message": "url参数不能为空"})
+    outfile = on_image_loaded(url)
+    r = os.path.split(outfile)
+    try:
+        response = make_response(
+            send_from_directory(r[0], outfile, as_attachment=True))
+        return response
+    except Exception as e:
+        return jsonify({"code": "异常", "message": "{}".format(e)})
 @app.route('/', methods=["GET"])
 def return_OneText():
     return "fina_res"
