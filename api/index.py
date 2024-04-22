@@ -61,9 +61,7 @@ def on_image_loaded(url):
     # 删除img_path文件
     os.remove(img_path)
     return outfile_name
-@app.route('/',methods=['GET', 'POST'])
-def index():
-    return 'Hello'
+
 @app.route('/jm', methods=['GET', 'POST'])
 def go_jm():
     url = request.args.get('url')
@@ -80,3 +78,6 @@ def go_jm():
 
 
 
+@app.route('/',methods=["GET"])
+def index():
+    return 'Hello'
