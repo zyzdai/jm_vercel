@@ -5,8 +5,8 @@ import requests
 from PIL import Image
 from flask import Flask, request, jsonify, make_response, send_from_directory
 app = Flask(__name__)
-TMP_DIR = 'tmp/jm'
-os.makedirs(TMP_DIR, exist_ok=True)
+# TMP_DIR = 'tmp/jm'
+# os.makedirs(TMP_DIR, exist_ok=True)
 def get_num(aid, index):
     normalCutNum = 10  # 默认切割数
     aIndex = str(aid) + str(index)  # aid 和 index
