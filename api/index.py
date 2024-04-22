@@ -21,16 +21,14 @@ def get_num(aid, index):
     return normalCutNum
 
 def on_image_loaded(url):
-    TMP_DIR = 'tmp/jm'
-    os.makedirs(TMP_DIR, exist_ok=True)
     # aid = 421536  # 漫画id
-    outfile_name = os.path.join(TMP_DIR, hashlib.md5(url.encode()).hexdigest() + '.jpg')
+    outfile_name = hashlib.md5(url.encode()).hexdigest() + '.jpg'
     if  os.path.exists(outfile_name):
         return outfile_name
     urls = url.split('/')
     aid = urls[-2]
     img_name = urls[-1]
-    img_path = os.path.join(TMP_DIR, f'{uuid.uuid4()}.jpg')
+    img_path = f'{uuid.uuid4()}.jpg'
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
     }
