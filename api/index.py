@@ -3,6 +3,8 @@ import os
 import uuid
 import requests
 from PIL import Image
+from flask import Flask, request, jsonify, make_response, send_from_directory
+app = Flask(__name__)
 TMP_DIR = 'tmp/jm'
 os.makedirs(TMP_DIR, exist_ok=True)
 def get_num(aid, index):
@@ -59,3 +61,21 @@ def on_image_loaded(url):
     # 删除img_path文件
     os.remove(img_path)
     return outfile_name
+@app.route('/',methods=['GET', 'POST'])
+def index():
+    return 'Hello'
+@app.route('/jm', methods=['GET', 'POST'])
+def go_jm():
+    url = request.args.get('url')
+    if len(url) <= 0:
+        return jsonify({"code": "异常", "message": "url参数不能为空"})
+    outfile = on_image_loaded(url)
+    r = os.path.split(outfile)
+    try:
+        response = make_response(
+            send_from_directory(r[0], outfile, as_attachment=True))
+        return response
+    except Exception as e:
+        return jsonify({"code": "异常", "message": "{}".format(e)})
+
+
