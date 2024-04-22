@@ -3,7 +3,7 @@ import requests
 import uuid
 from io import BytesIO
 from PIL import Image
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, make_response
 
 app = Flask(__name__)
 def get_num(aid, index):
@@ -59,7 +59,14 @@ def go_jm():
         return jsonify({"code": "异常", "message": "url参数不能为空"})
     img_io = on_image_loaded(url)
 
-    return send_file(img_io, mimetype='image/jpeg', attachment_filename=f'{uuid.uuid4()}.jpg', as_attachment=True)
+    response = make_response(img_io)
+
+    # 设置响应头部信息，指定附件名称
+    response.headers.set('Content-Disposition', 'attachment', filename=f'{uuid.uuid4()}.jpg')
+    response.headers.set('Content-Type', 'image/jpeg')
+
+    # 返回响应对象
+    return response
 @app.route('/', methods=["GET"])
 def return_OneText():
     return "fina_res"
